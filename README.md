@@ -31,6 +31,19 @@ el prompt y detenerlo al recibir la respuesta final. Registrar los segundos
 transcurridos, el modelo, el esfuerzo y cualquier interrupción. El tiempo
 incluye herramientas y pruebas. Una ejecución por modelo es una observación.
 
+### Resultados de la ronda 3
+
+| Modelo | Casos aprobados | Tiempo observado | Parche |
+|---|---:|---:|---|
+| GPT-6.2 Sol High · Codex | 7/7 | 59 s | [Ver cambio](https://github.com/PaoloDuenas/agent-harness-lab/commit/98cfe76) |
+| Claude Opus 5.5 High · Claude Code | 7/7 | 1 min 36 s | [Ver cambio](https://github.com/PaoloDuenas/agent-harness-lab/commit/088aa05) |
+
+Los dos entregaron el mismo cambio de una línea sobre `fd1a104`: la consulta
+calcula el mes usando la zona horaria solicitada. Las siete pruebas originales
+pasaron en ambas ramas sin modificaciones. Codex terminó 37 segundos antes en
+esta ejecución, según el cronometraje del operador. Para reproducir el 7/7,
+ejecuta el comando anterior en el commit de cualquiera de los dos parches.
+
 ## Ronda 1 · Diagnosticar con evidencia limitada
 
 La prueba carga dos registros ficticios con el mismo identificador y pregunta
