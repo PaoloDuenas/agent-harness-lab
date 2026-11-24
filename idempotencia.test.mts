@@ -2,8 +2,9 @@ import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { setTimeout as delay } from 'node:timers/promises';
 import test from 'node:test';
+import { importCatalog, initializeCatalog, type RunSql } from './catalog.mts';
 
-test('cada evento debe tener un solo procesamiento completado', async () => {
+test('el catálogo conserva una entrada por identificador al importar lotes', async () => {
   const container = execFileSync('docker', [
     'run', '--detach', '--rm', '--network', 'none',
     '--env', 'POSTGRES_PASSWORD=fixture-only', 'postgres:16-alpine',
@@ -18,30 +19,24 @@ test('cada evento debe tener un solo procesamiento completado', async () => {
       await delay(250);
     }
 
-    const counts = execFileSync('docker', [
+    const run: RunSql = (sql, variables = {}) => execFileSync('docker', [
       'exec', '-i', '-e', 'PGPASSWORD=fixture-only', container,
       'psql', ...connection, '-XqAt', '-v', 'ON_ERROR_STOP=1',
-    ], {
-      encoding: 'utf8',
-      input: `
-        CREATE TEMP TABLE completed_processing (
-          processing_id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-          event_id text NOT NULL
-        );
-        INSERT INTO completed_processing (event_id)
-        VALUES ('evt_demo_001'), ('evt_demo_001'), ('evt_demo_002');
+      ...Object.entries(variables).flatMap(([name, value]) => ['-v', name + '=' + value]),
+    ], { encoding: 'utf8', input: sql }).trim();
 
-        SELECT json_object_agg(event_id, completed_count)
-        FROM (
-          SELECT event_id, count(*) AS completed_count
-          FROM completed_processing GROUP BY event_id
-        ) AS totals;
-      `,
-    });
-    const completed: Record<string, number> = JSON.parse(counts);
-    assert.equal(completed.evt_demo_002, 1, 'evento de control evt_demo_002');
-    assert.equal(completed.evt_demo_001, 1,
-      `evt_demo_001: esperado 1 procesamiento, obtenido ${completed.evt_demo_001}`);
+    initializeCatalog(run);
+    const first = ['demo-A', 'demo-B', 'demo-A'];
+    const second = ['demo-B', 'demo-C'];
+    const entries = () => run('SELECT item_id FROM catalog ORDER BY item_id;').split('\n');
+
+    importCatalog(run, first);
+    assert.deepEqual(entries(), ['demo-A', 'demo-B']);
+    importCatalog(run, second);
+    assert.deepEqual(entries(), ['demo-A', 'demo-B', 'demo-C']);
+    importCatalog(run, first);
+    importCatalog(run, []);
+    assert.deepEqual(entries(), ['demo-A', 'demo-B', 'demo-C']);
   } finally {
     execFileSync('docker', ['rm', '--force', container]);
   }
