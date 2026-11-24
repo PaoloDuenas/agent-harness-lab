@@ -4,6 +4,29 @@ Ejercicios reproducibles para comparar cómo Claude Code y Codex investigan
 un fallo en TypeScript y PostgreSQL. Cada ronda comparte un punto de partida y
 un prompt entre los participantes. Los resultados corresponden a estas ejecuciones.
 
+## Ronda 4 · Conciliación histórica de cartera
+
+El reporte reconstruye los saldos de facturas a una fecha de corte con anticipos,
+pagos parciales y reversiones. Ambos agentes comenzaron en `1d3a3ab` con los
+mismos [nueve casos y criterios de evaluación](round-4/README.md).
+
+| Herramienta y modelo | Casos aprobados | Tiempo de entrega (min:s) | Parche |
+|---|---:|---:|---|
+| Codex · GPT-6.2 Sol High | 9/9 | 1:57 | [5f161e5](https://github.com/PaoloDuenas/agent-harness-lab/commit/5f161e5) |
+| Claude Code · Claude Opus 5.5 High | 9/9 | 8:08 | [92e203c](https://github.com/PaoloDuenas/agent-harness-lab/commit/92e203c) |
+
+Los dos parches preservan la interfaz y calculan los saldos exactos con una sola
+consulta de lectura por reporte. Codex terminó 6 min 11 s antes en esta ejecución,
+según el tiempo medido por el operador desde el envío del prompt hasta la respuesta final.
+
+Para reproducir los resultados, selecciona la [rama de Codex](https://github.com/PaoloDuenas/agent-harness-lab/tree/ronda-4/codex)
+o la [rama de Claude Code](https://github.com/PaoloDuenas/agent-harness-lab/tree/ronda-4/claude-code).
+Con Node.js 24 y Docker en ejecución, corre desde la raíz:
+
+```sh
+node --test round-4/balances.test.mts
+```
+
 ## Ronda 3 · Reporte mensual de facturas
 
 El reporte recibe un mes civil en formato YYYY-MM y una zona horaria IANA.
