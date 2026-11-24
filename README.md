@@ -40,6 +40,49 @@ fuera de estas mediciones.
 
 </details>
 
+## Costo estimado por API
+
+![Costo estimado por ejecución en USD para Codex y Claude Code en las cuatro rondas. La tabla siguiente contiene los valores.](assets/costo-api.png)
+
+| Ronda | Codex (USD) | Claude Code (USD) |
+|---|---:|---:|
+| 1 | 0.238 | 0.541 |
+| 2 | 0.099 | 0.518 |
+| 3 | 0.092 | 0.595 |
+| 4 | 0.135 | 0.848 |
+| **Total** | **0.563** | **2.502** |
+
+Estimación del costo de tokens si las ocho ejecuciones hubieran usado las APIs directas
+con tarifas estándar del 24 de noviembre de 2026 y el mismo uso de caché observado.
+Cada celda y el total se redondean por separado. La facturación real, suscripciones,
+herramientas, impuestos y descuentos quedan fuera del cálculo.
+
+<details>
+<summary>Tarifas y cálculo reproducible</summary>
+
+Precios en USD por millón de tokens, en orden de entrada ordinaria, escritura de
+caché utilizada, lectura de caché y salida.
+
+| Modelo | Entrada | Escritura | Lectura | Salida |
+|---|---:|---:|---:|---:|
+| GPT-6.2 Astra (ronda 1) | 8 | Sin uso | 0.40 | 40 |
+| GPT-6.2 Sol (rondas 2–4) | 2 | Sin uso | 0.10 | 10 |
+| Claude Opus 5.5 (rondas 1–4) | 4 | 8 (1 hora) | 0.20 | 20 |
+
+Cada categoría se multiplica por su tarifa y la suma se divide entre un millón.
+Para Codex se resta la lectura de caché de la entrada total. Los registros indican
+cero tokens de escritura y un máximo de 46 075 tokens de entrada por solicitud,
+dentro del tramo de contexto corto. La salida ya incluye el razonamiento.
+
+Para Claude, las escrituras de una hora fueron 45 473, 38 843, 43 343 y 57 772
+tokens en las rondas 1 a 4, respectivamente. La entrada ordinaria fue de 16, 16,
+18 y 20 tokens. Todas las escrituras registradas tuvieron duración de una hora.
+La tabla de consumo de arriba contiene las lecturas de caché y la salida de ambos agentes.
+
+[Tarifas oficiales de OpenAI](https://developers.openai.com/api/docs/pricing) · [Tarifas oficiales de Claude Opus 5.5](https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5)
+
+</details>
+
 ## Ronda 4 · Conciliación histórica de cartera
 
 El reporte reconstruye los saldos de facturas a una fecha de corte con anticipos,
