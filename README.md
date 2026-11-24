@@ -1,8 +1,35 @@
 # Agent Harness Lab
 
-Dos ejercicios reproducibles para comparar cómo Claude Code y Codex investigan
+Ejercicios reproducibles para comparar cómo Claude Code y Codex investigan
 un fallo en TypeScript y PostgreSQL. Cada ronda comparte un punto de partida y
 un prompt entre los participantes. Los resultados corresponden a estas ejecuciones.
+
+## Ronda 3 · Reporte mensual de facturas
+
+El reporte recibe un mes civil en formato YYYY-MM y una zona horaria IANA.
+Devuelve la cantidad y el importe total en centavos de las facturas emitidas
+en ese mes local. Excluye las canceladas y devuelve ceros para un mes vacío.
+Los datos de prueba son ficticios.
+
+Con Node.js 24 y Docker para contenedores Linux, ejecuta:
+
+```sh
+node --test monthly-report.test.mts
+```
+
+Los siete casos de aceptación se fijaron antes de entregar la tarea. La ronda
+se evalúa con esas mismas comprobaciones y una revisión del parche frente al
+contrato. El alcance de esta entrega es el reporte mensual.
+
+**Prompt compartido (Claude Opus 5.5 High y GPT-6.2 Sol High)**
+
+> Ejecuta las pruebas de la ronda 3. Investiga el fallo del reporte mensual y corrige la aplicación respetando su comportamiento documentado. Conserva las comprobaciones existentes y verifica el resultado. Al terminar, resume la causa, el cambio y el resultado de las pruebas.
+
+**Protocolo de tiempo.** Una ejecución por agente, en sesiones nuevas y por
+turnos, con Docker listo y la imagen descargada. Iniciar el cronómetro al enviar
+el prompt y detenerlo al recibir la respuesta final. Registrar los segundos
+transcurridos, el modelo, el esfuerzo y cualquier interrupción. El tiempo
+incluye herramientas y pruebas. Una ejecución por modelo es una observación.
 
 ## Ronda 1 · Diagnosticar con evidencia limitada
 
