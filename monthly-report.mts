@@ -8,7 +8,7 @@ export function monthlyReport(query: Query, month: string, zone: string) {
     )
     FROM invoices
     WHERE status = 'issued'
-      AND to_char(issued_at AT TIME ZONE 'UTC', 'YYYY-MM') = :'month';
+      AND to_char(issued_at AT TIME ZONE :'zone', 'YYYY-MM') = :'month';
   `, { month, zone });
   return JSON.parse(result) as { count: number; totalCents: number };
 }
