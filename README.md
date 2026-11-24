@@ -1,8 +1,23 @@
 # agent-harness-lab
-A reproducible lab for comparing Claude Code and Codex on real engineering tasks.
 
-## First experiment
+Laboratorio para comparar Claude Code y Codex desde el mismo commit.
 
-Two concurrent webhook requests carry the same event ID. Count the completed side effects in PostgreSQL: the same event should be processed once, while distinct events must still be processed independently.
+## Primer hito
 
-Start with a failing integration test using synthetic events. Then run Claude Code and Codex in separate clean checkouts of the same commit. Record the model, task, tools, patch, elapsed time and test results for each run.
+Con Node.js 24 y Docker con contenedores Linux en ejecución, corre desde la raíz:
+
+```sh
+node --test idempotencia.test.mts
+```
+
+La primera ejecución descarga la imagen `postgres:16-alpine` si hace falta.
+La prueba crea un PostgreSQL temporal, carga tres registros ficticios de
+procesamiento completado y consulta el conteo por ID. El control
+`evt_demo_002` debe aparecer una vez. Para `evt_demo_001` la prueba espera
+uno y encuentra dos, por lo que el comando termina con código 1.
+Al terminar elimina el contenedor.
+
+El fixture representa el estado almacenado después de una duplicación. La
+causa de esa duplicación queda fuera del experimento. Para comparar agentes,
+usa dos checkouts limpios del commit base y registra el modelo, la tarea,
+las herramientas, el parche, el tiempo transcurrido y el resultado de la prueba.
