@@ -4,6 +4,42 @@ Ejercicios reproducibles para comparar cómo Claude Code y Codex investigan
 un fallo en TypeScript y PostgreSQL. Cada ronda comparte un punto de partida y
 un prompt entre los participantes. Los resultados corresponden a estas ejecuciones.
 
+## Cuatro rondas de un vistazo
+
+| Ronda · tarea | Codex · resultado | Tiempo | Claude Code · resultado | Tiempo |
+|---|---|---:|---|---:|
+| 1 · Diagnosticar un duplicado | Identificó el duplicado en los datos de prueba | ≈1:04 | Llegó al mismo diagnóstico | ≈1:10 |
+| 2 · Importar un catálogo | Pasó la prueba original y la posterior con duplicados previos | ≈1:27 | Pasó la original y falló con duplicados previos | ≈1:07 |
+| 3 · Asignar facturas al mes local | 7/7 · parche idéntico | 0:59 | 7/7 · parche idéntico | 1:36 |
+| 4 · Reconstruir saldos históricos | 9/9 · una consulta por reporte | 1:57 | 9/9 · una consulta por reporte | 8:08 |
+
+Tiempos en minutos y segundos, una ejecución por agente y ronda. El signo ≈ indica
+una duración reconstruida del registro local, desde el inicio del turno (Codex)
+o el mensaje del usuario (Claude Code) hasta la respuesta final. En las rondas
+3 y 4 se usó el cronómetro del operador. Codex usó GPT-6.2 Astra Medium en la
+ronda 1 y GPT-6.2 Sol High en las demás. Claude Code usó Opus 5.5 en las cuatro
+rondas, con esfuerzo High en las rondas 2 a 4.
+
+<details>
+<summary>Consumo de tokens de las ocho ejecuciones</summary>
+
+| Ronda | Codex · total | De caché leída | De salida | Claude Code · total | De caché leída | De salida |
+|---|---:|---:|---:|---:|---:|---:|
+| 1 | 216 662 | 199 296 | 594 | 645 126 | 596 759 | 2 878 |
+| 2 | 298 065 | 271 360 | 2 273 | 752 618 | 710 489 | 3 270 |
+| 3 | 272 761 | 242 816 | 996 | 873 233 | 825 729 | 4 143 |
+| 4 | 444 184 | 410 752 | 3 363 | 1 039 434 | 972 063 | 9 579 |
+
+El total incluye entrada y salida de todas las llamadas registradas en la
+ejecución. Las columnas de caché leída y salida ya están incluidas en el total.
+En Codex se tomó el último contador acumulado. En Claude Code se contó una vez
+cada mensaje de modelo por ID y se sumaron entrada, creación y lectura de caché
+y salida. Una misma porción de contexto puede contabilizarse en varias llamadas.
+Cada herramienta usa su propio contexto y tokenizador. El costo facturado queda
+fuera de estas mediciones.
+
+</details>
+
 ## Ronda 4 · Conciliación histórica de cartera
 
 El reporte reconstruye los saldos de facturas a una fecha de corte con anticipos,
@@ -96,7 +132,7 @@ Un lote vacío debe conservar el contenido.
 
 La prueba original comienza con un catálogo vacío. Ambos parches impiden que
 un identificador aparezca dos veces al recibir lotes sucesivos. El operador
-observó que Claude terminó primero. El experimento no midió los tiempos exactos ni el costo.
+observó que Claude terminó primero. Las duraciones aproximadas de esta ronda se reconstruyeron después a partir de los registros locales.
 
 **La segunda prueba se diseñó y ejecutó después de recibir ambos parches.**
 Carga las filas `1:A, 2:B, 3:A` con el esquema anterior, inicializa el catálogo
