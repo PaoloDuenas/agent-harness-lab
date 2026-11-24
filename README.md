@@ -68,8 +68,8 @@ Un lote vacío debe conservar el contenido.
 
 | Herramienta y configuración | Rama | Commit del parche | Catálogo nuevo (original) | Duplicados previos (posterior) |
 |---|---|---|---|---|
-| Claude Code · Claude Opus 5.5 High | `codex/benchmark-claude` | [`b8aa949`](https://github.com/PaoloDuenas/agent-harness-lab/commit/b8aa949) | Pasa | Falla al crear el índice único |
-| Codex · GPT-6.2 Sol High | `codex/benchmark-codex` | [`8871936`](https://github.com/PaoloDuenas/agent-harness-lab/commit/8871936) | Pasa | Pasa |
+| Claude Code · Claude Opus 5.5 High | [Rama de Claude Code](https://github.com/PaoloDuenas/agent-harness-lab/tree/codex/benchmark-claude) | [`b8aa949`](https://github.com/PaoloDuenas/agent-harness-lab/commit/b8aa949) | Pasa | Falla al crear el índice único |
+| Codex · GPT-6.2 Sol High | [Rama de Codex](https://github.com/PaoloDuenas/agent-harness-lab/tree/codex/benchmark-codex) | [`8871936`](https://github.com/PaoloDuenas/agent-harness-lab/commit/8871936) | Pasa | Pasa |
 
 La prueba original comienza con un catálogo vacío. Ambos parches impiden que
 un identificador aparezca dos veces al recibir lotes sucesivos. El operador
