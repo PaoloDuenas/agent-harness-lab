@@ -1,5 +1,18 @@
 # Agent Harness Lab
 
+Dos ejercicios reproducibles para comparar cómo Claude Code y Codex investigan
+un fallo en TypeScript y PostgreSQL. Cada ronda comparte un punto de partida y
+un prompt entre los participantes. Los resultados corresponden a estas ejecuciones.
+
+## Ronda 1 · Diagnosticar con evidencia limitada
+
+La prueba carga dos registros ficticios con el mismo identificador y pregunta
+cuántos procesamientos se completaron. Ambos agentes reprodujeron el fallo e
+identificaron que la propia prueba insertaba las dos filas. Ambos dejaron el
+código intacto y explicaron qué evidencia faltaba para atribuir el duplicado a
+una causa en la aplicación. El lector puede reproducir el fallo en el
+[commit inicial de la ronda 1](https://github.com/PaoloDuenas/agent-harness-lab/tree/a5c174a).
+
 ## Ronda 2 · Importación de un catálogo en PostgreSQL
 
 Dos agentes partieron del commit `f6061bd` en worktrees limpios. El importador
@@ -15,8 +28,8 @@ Un lote vacío debe conservar el contenido.
 
 | Herramienta y configuración | Rama | Commit del parche | Catálogo nuevo (original) | Duplicados previos (posterior) |
 |---|---|---|---|---|
-| Claude Code · Claude Opus 5.5 High | `codex/benchmark-claude` | `b8aa949` | Pasa | Falla al crear el índice único |
-| Codex · GPT-6.2 Sol High | `codex/benchmark-codex` | `8871936` | Pasa | Pasa |
+| Claude Code · Claude Opus 5.5 High | `codex/benchmark-claude` | [`b8aa949`](https://github.com/PaoloDuenas/agent-harness-lab/commit/b8aa949) | Pasa | Falla al crear el índice único |
+| Codex · GPT-6.2 Sol High | `codex/benchmark-codex` | [`8871936`](https://github.com/PaoloDuenas/agent-harness-lab/commit/8871936) | Pasa | Pasa |
 
 La prueba original comienza con un catálogo vacío. Ambos parches impiden que
 un identificador aparezca dos veces al recibir lotes sucesivos. El operador
