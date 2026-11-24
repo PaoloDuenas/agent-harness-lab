@@ -146,15 +146,6 @@ pasaron en ambas ramas sin modificaciones. Codex terminó 37 segundos antes en
 esta ejecución, según el cronometraje del operador. Para reproducir el 7/7,
 ejecuta el comando anterior en el commit de cualquiera de los dos parches.
 
-## Ronda 1 · Diagnosticar con evidencia limitada
-
-La prueba carga dos registros ficticios con el mismo identificador y pregunta
-cuántos procesamientos se completaron. Ambos agentes reprodujeron el fallo e
-identificaron que la propia prueba insertaba las dos filas. Ambos dejaron el
-código intacto y explicaron qué evidencia faltaba para atribuir el duplicado a
-una causa en la aplicación. El lector puede reproducir el fallo en el
-[commit inicial de la ronda 1](https://github.com/PaoloDuenas/agent-harness-lab/tree/a5c174a).
-
 ## Ronda 2 · Importación de un catálogo en PostgreSQL
 
 Dos agentes partieron del commit `f6061bd` en worktrees limpios. El importador
@@ -207,3 +198,12 @@ En la rama de Claude se espera una prueba aprobada y una fallida (código 1).
 En la de Codex se esperan dos aprobadas (código 0). La rama
 `ronda-2/base` contiene el importador base y las dos pruebas para
 consultar el experimento sin aplicar ninguna solución.
+
+## Ronda 1 · Diagnosticar con evidencia limitada
+
+La prueba carga dos registros ficticios con el mismo identificador y pregunta
+cuántos procesamientos se completaron. Ambos agentes reprodujeron el fallo e
+identificaron que la propia prueba insertaba las dos filas. Ambos dejaron el
+código intacto y explicaron qué evidencia faltaba para atribuir el duplicado a
+una causa en la aplicación. El lector puede reproducir el fallo en el
+[commit inicial de la ronda 1](https://github.com/PaoloDuenas/agent-harness-lab/tree/a5c174a).
